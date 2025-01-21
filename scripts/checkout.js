@@ -1,5 +1,5 @@
 import {products} from '../data/products.js';
-import {cart, saveToLocalStorage, cartRemover, dltQuantity, TcartinLstorage } from '../data/cart.js';
+import {cart, saveToLocalStorage, cartRemover, dltQuantity, updateDeliveryOption} from '../data/cart.js';
 import { formatCurrency } from './utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'; 
 import {deliveryOptions} from '../data/delivery.js';
@@ -115,9 +115,11 @@ const isChecked = deliveryoption.id === cartItem.deliveryOptionId;
 
     html +=
 `
-<div class="delivery-option">
+<div class="delivery-option"
+data-product-id="${matchingProduct.id}"
+data-delivery-option-id="${deliveryoption.id}">
             <input type="radio"
-            class="delivery-option-input"
+            class="delivery-option-input js-delivery-option"
            ${isChecked ?  'checked': '' }
             name="delivery-option-${matchingProduct.id}">
             <div>
@@ -166,7 +168,7 @@ function headerDisplay () {
      cart.forEach( (cartItem) => { 
         cartQuantity += cartItem.quantity
         })
-        TcartinLstorage();
+       // TcartinLstorage();
 
     const checkoutHeader = document.querySelector('.js-header-checkout');
 checkoutHeader.innerHTML = `checkout(${cartQuantity} item)`
@@ -239,3 +241,14 @@ document.querySelectorAll('.js-save-quantity-link')
         saveToLocalStorage();
  
         }
+
+        document.querySelectorAll('.js-delivery-option')
+        .forEach(
+            (element) => {
+                element.addEventListener('click', () => {
+                const {productId, deliveryOptionId} = element.dataset;
+
+                updateDeliveryOption(productId, deliveryOptionId)
+                });
+            
+            });

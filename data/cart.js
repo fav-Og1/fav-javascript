@@ -37,7 +37,7 @@ export function cartItemQuantity (productId) {
   //console.log(cart)
   //when we update cartitem quantity save in localstorage
   saveToLocalStorage();
-  TcartinLstorage();
+  //TcartinLstorage();
   }
 
 
@@ -74,5 +74,19 @@ export function TcartinLstorage (){
     cart.forEach( (cartItem) => {
     cartQuantity -= cartItem.quantity
     })
-    TcartinLstorage();
+    //TcartinLstorage();
     }
+
+export function updateDeliveryOption (productId,deliveryOptionId) {
+    let  MatchingItem;
+
+  cart.forEach((cartItem) => {
+       if (productId === cartItem.productId) {
+        MatchingItem = cartItem
+       }
+  });
+
+  MatchingItem.deliveryOptionId = deliveryOptionId;
+
+  saveToLocalStorage();
+}
