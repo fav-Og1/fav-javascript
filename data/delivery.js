@@ -1,4 +1,4 @@
-export const deliveryOptions = [{
+export const deliveryOption = [{
     id: '1',
     deliveryDay: 7,
     pricePercents: 0
