@@ -3,6 +3,7 @@ import {cart, saveToLocalStorage, cartRemover, dltQuantity, updateDeliveryOption
 import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'; 
 import {deliveryOption, getdeliveryPrice} from '../../data/delivery.js';
+import { renderPaymentSummary } from './paymentSummary.js';
 
 export function renderSummary () {
     headerDisplay();
@@ -134,7 +135,8 @@ const dateString = deliveryDate.format('dddd, MMMM D');
     container.remove();
 
     dltQuantity();
-renderSummary();
+    renderSummary();
+    renderPaymentSummary();
     }
     )});
 
@@ -190,6 +192,7 @@ renderSummary();
         
                 updateItemquantity(productId,newQuantity); 
                 renderSummary();
+                renderPaymentSummary();
         });} )
         // this function collects the value from the input element,after clicking the save link
         //and changes the slected item quantity, then finally updates the totalcart quantity
