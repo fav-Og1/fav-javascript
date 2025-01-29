@@ -1,37 +1,25 @@
-import {products,} from '../../data/products.js';
+import {products, getProduct} from '../../data/products.js';
 import {cart, saveToLocalStorage, cartRemover, dltQuantity, updateDeliveryOption} from '../../data/cart.js';
 import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'; 
-import {deliveryOption} from '../../data/delivery.js';
+import {deliveryOption, getdeliveryPrice} from '../../data/delivery.js';
 
 export function renderSummary () {
     headerDisplay();
 let cartitemSummary = ''
 //cart array showing product array other details like price,name,image will be gotten from the product array in product.js
-//using productid to get the full data of items when genertaing the html,so we wont have to write the full content of 
-//products array in product.js
+//using productid to get the full data of items when genertaing the html,so we wont have to write the full content of //products array in product.js
 cart.forEach( (cartItem) => {
+   
 const productId = cartItem.productId;
+const matchingProduct = getProduct(productId)
 
-let matchingProduct;
-
-products.forEach( (product) => {
-
-    if (product.id === productId) {
-matchingProduct = product
-    }
-
-})
 //updating the delivery date to the selected delivery option
 const deliveryOptionId = cartItem.deliveryOptionId;
 
-let deliveryoption;
+const deliveryoption = getdeliveryPrice(deliveryOptionId)
 
-deliveryOption.forEach ( (option) => {
-if (option.id === deliveryOptionId ){
-deliveryoption = option
-}
-});
+
 
 const today = dayjs();
 const deliveryDate = today.add(
@@ -100,7 +88,7 @@ const dateString = deliveryDate.format('dddd, MMMM D');
 
         const priceString = deliveryoption.pricePercents === 0
         ? 'Free shipping'
-        : `$${formatCurrency(deliveryoption.pricePercents)} - `
+        : `$${formatCurrency(deliveryoption.pricePercents)} `
 
     const isChecked = deliveryoption.id === cartItem.deliveryOptionId;
 
@@ -168,6 +156,9 @@ renderSummary();
     //console.log(cartQuantity);
     //console.log(cart)
 
+
+
+
     //update button onclick feature
     document.querySelectorAll('.js-update-quantity')
     .forEach( (link) => {
@@ -177,7 +168,9 @@ renderSummary();
         //console.log(productId)
         document.querySelector(`.js-cart-item-container-${productId}`)
         .classList.add('is-editing-quantity')
+
         })  
+
     });
         // save button onclick feature
     document.querySelectorAll('.js-save-quantity-link')
@@ -185,13 +178,16 @@ renderSummary();
         link.addEventListener('click', () => {
             const productId = link.dataset.productId
             //console.log(productId);
+
             document.querySelector(`.js-cart-item-container-${productId}`)
             .classList.remove('is-editing-quantity');
-          
+        
+            
             const quantityInput =  document.querySelector(`.js-quantity-input-${productId}`).value
             
             const newQuantity = Number(quantityInput)
             
+        
                 updateItemquantity(productId,newQuantity); 
                 renderSummary();
         });} )
@@ -199,7 +195,8 @@ renderSummary();
         //and changes the slected item quantity, then finally updates the totalcart quantity
         
         function updateItemquantity (productId,newQuantity) {
-                
+            
+            
         let matchingItem;
 
             cart.forEach( (cartItem) => {
@@ -221,9 +218,11 @@ renderSummary();
                     element.addEventListener('click', () => {
                     const {productId, deliveryOptionId} = element.dataset;
 
-                    updateDeliveryOption(productId, deliveryOptionId)
+                    updateDeliveryOption(productId, deliveryOptionId);
+                    renderSummary();
+
                     });
-                renderSummary();
+              
                 });
             
             }        
