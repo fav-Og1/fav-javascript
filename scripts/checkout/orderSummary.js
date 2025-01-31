@@ -5,6 +5,8 @@ import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOption, getdeliveryPrice} from '../../data/delivery.js';
 import { renderPaymentSummary } from './paymentSummary.js';
 
+
+
 export function renderSummary () {
     headerDisplay();
 let cartitemSummary = ''
