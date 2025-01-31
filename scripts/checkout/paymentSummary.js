@@ -7,6 +7,8 @@ export function renderPaymentSummary(){
     let productPriceCents = 0
     let shippingPriceCents = 0
     let totalQuantity = 0
+
+    
     cart.forEach( (cartItem) => {
       
 

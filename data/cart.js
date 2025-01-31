@@ -77,7 +77,7 @@ export function TcartinLstorage (){
     //TcartinLstorage();
     }
 
-export function updateDeliveryOption (productId,deliveryOptionId) {
+export function updateDeliveryOption (productId, deliveryOptionId) {
     let  MatchingItem;
 
   cart.forEach((cartItem) => {

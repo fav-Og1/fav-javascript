@@ -20,16 +20,17 @@ const matchingProduct = getProduct(productId)
 //updating the delivery date to the selected delivery option
 const deliveryOptionId = cartItem.deliveryOptionId;
 
-const deliveryoption = getdeliveryPrice(deliveryOptionId)
-
-
+const deliveryOption = getdeliveryPrice(deliveryOptionId)
 
 const today = dayjs();
 const deliveryDate = today.add(
-    deliveryoption.deliveryDay,'days'
+    deliveryOption.deliveryDay,'days'
 );
 
 const dateString = deliveryDate.format('dddd, MMMM D');
+
+
+
  //generating the html using the cart-item-container data from the checkout page
     cartitemSummary += `
     <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
@@ -81,27 +82,27 @@ const dateString = deliveryDate.format('dddd, MMMM D');
     function deliverydateHTML (matchingProduct, cartItem) {
     let html = ''
 
-    deliveryOption.forEach( (deliveryoption) => {
+    deliveryOption.forEach( (deliveryOption) => {
         const today = dayjs();
         const deliveryDate = today.add(
-            deliveryoption.deliveryDay,'days'
+            deliveryOption.deliveryDay,'days'
         );
 
         const dateString = deliveryDate.format('dddd, MMMM D');
 
-        const priceString = deliveryoption.pricePercents === 0
+        const priceString = deliveryOption.pricePercents === 0
         ? 'Free shipping'
-        : `$${formatCurrency(deliveryoption.pricePercents)} `
+        : `$${formatCurrency(deliveryOption.pricePercents)} `
 
-    const isChecked = deliveryoption.id === cartItem.deliveryOptionId;
+    const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
         html +=
     `
-    <div class="delivery-option"
+    <div class="delivery-option js-delivery-option"
     data-product-id="${matchingProduct.id}"
-    data-delivery-option-id="${deliveryoption.id}">
+    data-delivery-option-id="${deliveryOption.id}">
                 <input type="radio"
-                class="delivery-option-input js-delivery-option"
+                class="delivery-option-input"
             ${isChecked ?  'checked': '' }
                 name="delivery-option-${matchingProduct.id}">
                 <div>
@@ -217,7 +218,7 @@ const dateString = deliveryDate.format('dddd, MMMM D');
     
             }
 
-            document.querySelectorAll('.js-delivery-option')
+    document.querySelectorAll('.js-delivery-option')
             .forEach(
                 (element) => {
                     element.addEventListener('click', () => {
@@ -225,7 +226,7 @@ const dateString = deliveryDate.format('dddd, MMMM D');
 
                     updateDeliveryOption(productId, deliveryOptionId);
                     renderSummary();
-
+                    renderPaymentSummary();
                     });
               
                 });
