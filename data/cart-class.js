@@ -1,17 +1,17 @@
 
 class Cart {
     cartItems = undefined;
-    localStorageKey = undefined;
+    #localStorageKey = undefined;
 
     constructor(localStorageKey){     
-this.localStorageKey = localStorageKey;
-this.loadfromStorage();
+this.#localStorageKey = localStorageKey;
+this.#loadfromStorage();
 
     }
 
-    loadfromStorage(){
+    #loadfromStorage(){
     
-            this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
+            this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
            
            if (!this.cartItems) {
            this.cartItems = [{
@@ -29,7 +29,7 @@ this.loadfromStorage();
     // function to save in checkoutpage in localstorage
     // move to cart.js
     saveToLocalStorage (){
-        localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems))
+        localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems))
       }
     
 
@@ -98,7 +98,7 @@ const businessCart = new Cart('cart-business');
 
 console.log(businessCart);
 console.log(cart) ;
- 
+
 /*  
 export function TcartinLstorage (){
     localStorage.setItem('total cart quantity', JSON.stringify(cartQuantity))
