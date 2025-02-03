@@ -1,10 +1,17 @@
-function Cart (localStorageKey){
 
-    const cart = {
-        cartItems : undefined,
-        loadfromStorage(){
+class Cart {
+    cartItems = undefined;
+    localStorageKey = undefined;
+
+    constructor(localStorageKey){     
+this.localStorageKey = localStorageKey;
+this.loadfromStorage();
+
+    }
+
+    loadfromStorage(){
     
-            this.cartItems = JSON.parse(localStorage.getItem('localStorageKey'));
+            this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
            
            if (!this.cartItems) {
            this.cartItems = [{
@@ -17,14 +24,15 @@ function Cart (localStorageKey){
                quantity: 1,
                deliveryOptionId: '2'
            }]}
-           },
+           }
            
     // function to save in checkoutpage in localstorage
     // move to cart.js
     saveToLocalStorage (){
-        localStorage.setItem('localStorageKey', JSON.stringify(this.cartItems))
-      },
+        localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems))
+      }
     
+
     // updates cartitem quantity
     
     cartItemQuantity (productId) {
@@ -53,7 +61,7 @@ function Cart (localStorageKey){
         this.saveToLocalStorage();
         //TcartinLstorage();
         //cartQuantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value)
-        },
+        }
     
       //move this function to cart.js and import to use here,after applying the module feature.
     cartRemover(productId){
@@ -67,7 +75,7 @@ function Cart (localStorageKey){
         })
         this.cartItems = newCart;
         this.saveToLocalStorage();
-        },
+        }
     
     updateDeliveryOption (productId,deliveryOptionId) {
             let  MatchingItem;
@@ -84,30 +92,13 @@ function Cart (localStorageKey){
         }
     
     }
-   return cart 
 
-}
-
-
-const cart = Cart('cart-oop');
-const businessCart = Cart('cart-business');
-
-
-
-
-
-//cart.cartItemQuantity('54e0eccd-8f36-462b-b68a-8182611d9add');
-
-
-cart.loadfromStorage();
- console.log(cart)
-businessCart.loadfromStorage();
+const cart = new Cart('cart-oop');
+const businessCart = new Cart('cart-business');
 
 console.log(businessCart);
-
-
-
-  
+console.log(cart) ;
+ 
 /*  
 export function TcartinLstorage (){
     localStorage.setItem('total cart quantity', JSON.stringify(cartQuantity))
