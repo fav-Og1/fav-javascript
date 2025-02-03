@@ -197,6 +197,7 @@ const dateString = deliveryDate.format('dddd, MMMM D');
                 renderSummary();
                 renderPaymentSummary();
         });} )
+        
         // this function collects the value from the input element,after clicking the save link
         //and changes the slected item quantity, then finally updates the totalcart quantity
         
@@ -213,7 +214,7 @@ const dateString = deliveryDate.format('dddd, MMMM D');
             });
     
             matchingItem.quantity = newQuantity
-        console.log(cart)
+        //console.log(cart)
             saveToLocalStorage();
     
             }

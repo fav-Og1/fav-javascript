@@ -1,70 +1,119 @@
-export let  cart = JSON.parse(localStorage.getItem('cart'));
+function Cart (localStorageKey){
 
-if (!cart) {
-cart = [{
-    productId: '83d4ca15-0f35-48f5-b7a3-1ea210004f2e',
-    quantity: 1,
-    deliveryOptionId: '1'
-},
-{
-    productId:'54e0eccd-8f36-462b-b68a-8182611d9add',
-    quantity: 1,
-    deliveryOptionId: '2'
-}]}
+    const cart = {
+        cartItems : undefined,
+        loadfromStorage(){
+    
+            this.cartItems = JSON.parse(localStorage.getItem('localStorageKey'));
+           
+           if (!this.cartItems) {
+           this.cartItems = [{
+               productId: '83d4ca15-0f35-48f5-b7a3-1ea210004f2e',
+               quantity: 1,
+               deliveryOptionId: '1'
+           },
+           {
+               productId:'54e0eccd-8f36-462b-b68a-8182611d9add',
+               quantity: 1,
+               deliveryOptionId: '2'
+           }]}
+           },
+           
+    // function to save in checkoutpage in localstorage
+    // move to cart.js
+    saveToLocalStorage (){
+        localStorage.setItem('localStorageKey', JSON.stringify(this.cartItems))
+      },
+    
+    // updates cartitem quantity
+    
+    cartItemQuantity (productId) {
+            let cartQuantity = 0
+    
+            
+        
+        let  MatchingItem;
+        //this code helps to update item quantity in cart and prevent add more of the same item in cart
+        this.cartItems.forEach((cartItem) => {
+            if (productId === cartItem.productId) {
+                MatchingItem = cartItem
+            }
+        });
+        
+        if (MatchingItem) {
+        MatchingItem.quantity += 1
+        } else(
+            this.cartItems.push(
+                {productId: productId,
+                quantity : cartQuantity,
+                deliveryOptionId: '1'
+                }));
+        //console.log(cart)
+        //when we update cartitem quantity save in localstorage
+        this.saveToLocalStorage();
+        //TcartinLstorage();
+        //cartQuantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value)
+        },
+    
+      //move this function to cart.js and import to use here,after applying the module feature.
+    cartRemover(productId){
+        
+        const newCart = [];
+        
+        this.cartItems.forEach( (cartItem) => {
+            if (cartItem.productId !== productId){
+        newCart.push(cartItem);
+            }
+        })
+        this.cartItems = newCart;
+        this.saveToLocalStorage();
+        },
+    
+    updateDeliveryOption (productId,deliveryOptionId) {
+            let  MatchingItem;
+        
+          this.cartItems.forEach((cartItem) => {
+               if (productId === cartItem.productId) {
+                MatchingItem = cartItem
+               }
+          });
+        
+          MatchingItem.deliveryOptionId = deliveryOptionId;
+        
+          this.saveToLocalStorage();
+        }
+    
+    }
+   return cart 
+
+}
 
 
-// updates cartitem quantity
-let cartQuantity = 0
-export function cartItemQuantity (productId) {
-     cartQuantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value)
+const cart = Cart('cart-oop');
+const businessCart = Cart('cart-business');
+
+
+
+
+
+
+
+
+cart.loadfromStorage();
+ console.log(cart)
+businessCart.loadfromStorage();
+
+console.log(businessCart);
+
+
+
   
-  let  MatchingItem;
-  //this code helps to update item quantity in cart and prevent add more of the same item in cart
-  cart.forEach((cartItem) => {
-       if (productId === cartItem.productId) {
-        MatchingItem = cartItem
-       }
-  });
-  
-  if (MatchingItem) {
-  MatchingItem.quantity += cartQuantity
-  } else(
-      cart.push(
-          {productId: productId,
-          quantity : cartQuantity,
-          deliveryOptionId: '1'
-          }));
-  //console.log(cart)
-  //when we update cartitem quantity save in localstorage
-  saveToLocalStorage();
-  //TcartinLstorage();
-  }
-
-
-// function to save in checkoutpage in localstorage
-// move to cart.js
- export function saveToLocalStorage (){
-    localStorage.setItem('cart', JSON.stringify(cart))
-  }
-  
-  
+/*  
 export function TcartinLstorage (){
     localStorage.setItem('total cart quantity', JSON.stringify(cartQuantity))
   }
 
-  //move this function to cart.js and import to use here,after applying the module feature.
- export function cartRemover(productId){
-    
-    const newCart = [];
-    
-    cart.forEach( (cartItem) => {
-        if (cartItem.productId !== productId){
-    newCart.push(cartItem);
-        }
-    })
-    cart = newCart;
-    saveToLocalStorage();
-    }
+  
 
     // function to update cart quantity after deleting an item
 // move to cart.js when using module
@@ -77,16 +126,4 @@ export function TcartinLstorage (){
     //TcartinLstorage();
     }
 
-export function updateDeliveryOption (productId,deliveryOptionId) {
-    let  MatchingItem;
-
-  cart.forEach((cartItem) => {
-       if (productId === cartItem.productId) {
-        MatchingItem = cartItem
-       }
-  });
-
-  MatchingItem.deliveryOptionId = deliveryOptionId;
-
-  saveToLocalStorage();
-}
+*/
