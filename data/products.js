@@ -13,7 +13,7 @@ matchingProduct = product
 return matchingProduct
 }
 
-class Products {
+export class Products {
   id;
   image;
   name;
@@ -41,7 +41,7 @@ return `$${formatCurrency(this.priceCents)}`
   }
 }
 
-class clothing extends Products {
+export class clothing extends Products {
       sizeChartLink;
 
       constructor(productDetails){
@@ -748,7 +748,7 @@ xhr.addEventListener('load', ()=>{
      return new Products (productDetails);
      
 });
-console.log(products) 
+
 fun();
 })
 

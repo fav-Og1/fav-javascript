@@ -1,3 +1,7 @@
+//import { products, clothing, Products } from "./products";
+
+
+
 export let  cart = JSON.parse(localStorage.getItem('cart'));
 
 if (!cart) {
@@ -90,3 +94,20 @@ export function updateDeliveryOption (productId, deliveryOptionId) {
 
   saveToLocalStorage();
 }
+
+
+export function  loadCart(fun){
+const xhr = new XMLHttpRequest();
+
+xhr.addEventListener('load', ()=>{
+  console.log(xhr.response)
+     
+});
+
+fun();
+
+ xhr.open('GET', 'https://supersimplebackend.dev/cart');
+ xhr.send();
+
+}
+
